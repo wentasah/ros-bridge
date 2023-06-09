@@ -1,3 +1,15 @@
+# ROS/ROS2 bridge for CARLA simulator with a Livox lidar
+
+This is fork of an official CARLA-ROS bridge 0.9.13 with [Livox lidar sensor created by IKAROS93](https://github.com/IKAROS93/Livox_laser_simulation_for_CARLA)
+
+The files from [the official repository *(commit #630)*](https://github.com/carla-simulator/ros-bridge/commit/e9063d97ff5a724f76adbb1b852dc71da1dcfeec) were merged with files created by IKAROS93.
+
+New launchgile **carla_example_ego_vehicle_with_livox.launch.py** was added to spawn an ego vehicle with Livox lidar attached.
+
+*And pull request fixing HUD info about cardinal direction in **CARLA Manual Control** package were merged.*
+
+
+
 # ROS/ROS2 bridge for CARLA simulator
 
 [![Actions Status](https://github.com/carla-simulator/ros-bridge/workflows/CI/badge.svg)](https://github.com/carla-simulator/ros-bridge)
