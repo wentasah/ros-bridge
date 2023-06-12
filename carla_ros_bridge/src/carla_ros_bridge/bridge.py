@@ -418,8 +418,10 @@ def main(args=None):
                 CarlaRosBridge.CARLA_VERSION, dist.version))
             sys.exit(1)
 
-        if LooseVersion(carla_client.get_server_version()) != \
-           LooseVersion(carla_client.get_client_version()):
+        def before_dash(s):
+            return s.split("-")[0]
+        if LooseVersion(before_dash(carla_client.get_server_version())) != \
+           LooseVersion(before_dash(carla_client.get_client_version())):
             carla_bridge.logwarn(
                 "Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API. Client API version: {}. Simulator API version: {}"
                 .format(carla_client.get_client_version(),
