@@ -435,7 +435,7 @@ def main(args=None):
                     data = od_file.read()
                 carla_world = carla_client.generate_opendrive_world(str(data))
             else:
-                if carla_world.get_map().name != parameters["town"]:
+                if carla_world.get_map().name != "Carla/Maps/" + parameters["town"]:
                     carla_bridge.loginfo("Loading town '{}' (previous: '{}').".format(
                         parameters["town"], carla_world.get_map().name))
                     carla_world = carla_client.load_world(parameters["town"])
