@@ -53,7 +53,7 @@ class TwistToVehicleControl(CompatibleNode):  # pylint: disable=too-few-public-m
 
         self.pub = self.new_publisher(
             CarlaEgoVehicleControl,
-            "/carla/{}/vehicle_control_cmd".format(self.role_name),
+            "/carla/{}/vehicle_control_cmd_manual".format(self.role_name),
             qos_profile=10)
 
     def update_vehicle_info(self, vehicle_info):
