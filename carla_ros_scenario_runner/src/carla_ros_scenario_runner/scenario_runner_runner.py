@@ -37,8 +37,8 @@ class ScenarioRunnerRunner(ApplicationRunner):
             python_path = "/usr/bin/python"
         elif ROS_VERSION == 2:
             python_path = "/usr/bin/python3"
-        cmdline = [python_path, "{}/scenario_runner.py".format(self._path),
-                   "--openscenario", "{}".format(scenario_file),
+        cmdline = ["scenario_runner_certicar",
+                   "--scenario", "{}".format(scenario_file),
                    "--timeout", "1000000",
                    "--host", self._host,
                    "--port", str(self._port)]

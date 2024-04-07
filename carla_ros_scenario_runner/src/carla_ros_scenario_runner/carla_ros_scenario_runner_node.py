@@ -117,11 +117,7 @@ class CarlaRosScenarioRunner(CompatibleNode):
 
         response = roscomp.get_service_response(ExecuteScenario)
         response.result = True
-        if not os.path.isfile(req.scenario.scenario_file):
-            self.logwarn("Requested scenario file not existing {}".format(
-                req.scenario.scenario_file))
-            response.result = False
-        else:
+        if True:
             self._request_queue.put(req.scenario)
         return response
 
