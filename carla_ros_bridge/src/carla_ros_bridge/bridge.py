@@ -398,6 +398,7 @@ def main(args=None):
                                                                0.05)
     parameters['register_all_sensors'] = carla_bridge.get_param('register_all_sensors', True)
     parameters['town'] = carla_bridge.get_param('town', 'Town01')
+    parameters['map_layers'] = carla_bridge.get_param('map_layers', 'all')
     role_name = carla_bridge.get_param('ego_vehicle_role_name',
                                        ["hero", "ego_vehicle", "hero1", "hero2", "hero3"])
     parameters["ego_vehicle"] = {"role_name": role_name}
@@ -440,8 +441,21 @@ def main(args=None):
                 if carla_world.get_map().name != "Carla/Maps/" + parameters["town"]:
                     carla_bridge.loginfo("Loading town '{}' (previous: '{}').".format(
                         parameters["town"], carla_world.get_map().name))
-                    carla_world = carla_client.load_world(parameters["town"])
+                    layers = carla.MapLayer.All
+                    if "map_layers" in parameters:
+                        if parameters["map_layers"] == "all":
+                            layers = carla.MapLayer.All
+                        elif parameters["map_layers"] == "ground":
+                            layers = carla.MapLayer.Ground
+                        else:
+                            raise ValueError(f"'{parameters['map_layers']}'"
+                                             " is unknown map layer")
+                    carla_world = carla_client.load_world(
+                            map_name=parameters["town"],
+                            map_layers=layers)
             carla_world.tick()
+            carla_bridge.loginfo(f"Loaded town {parameters['town']},"
+                                 f" with {parameters['map_layers']} layers.")
 
         carla_bridge.initialize_bridge(carla_client.get_world(), parameters)
 
