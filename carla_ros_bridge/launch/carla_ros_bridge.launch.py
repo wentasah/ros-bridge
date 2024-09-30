@@ -45,6 +45,11 @@ def generate_launch_description():
             description='Either use an available CARLA town (eg. "Town01") or an OpenDRIVE file (ending in .xodr)'
         ),
         launch.actions.DeclareLaunchArgument(
+            name='map_layers',
+            default_value='all',
+            description='What map layers to use? (all | ground)'
+        ),
+        launch.actions.DeclareLaunchArgument(
             name='register_all_sensors',
             default_value='True',
             description='Enable/disable the registration of all sensors. If disabled, only sensors spawned by the bridge are registered'
@@ -89,6 +94,9 @@ def generate_launch_description():
                 },
                 {
                     'town': launch.substitutions.LaunchConfiguration('town')
+                },
+                {
+                    'map_layers': launch.substitutions.LaunchConfiguration('map_layers')
                 },
                 {
                     'register_all_sensors': launch.substitutions.LaunchConfiguration('register_all_sensors')
