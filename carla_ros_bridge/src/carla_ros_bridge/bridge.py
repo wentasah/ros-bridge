@@ -381,7 +381,7 @@ def main(args=None):
     executor = None
     parameters = {}
 
-    executor = roscomp.executors.MultiThreadedExecutor()
+    executor = roscomp.executors.SingleThreadedExecutor()
     carla_bridge = CarlaRosBridge()
     executor.add_node(carla_bridge)
 
