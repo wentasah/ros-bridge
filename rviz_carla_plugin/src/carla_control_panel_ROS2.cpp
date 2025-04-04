@@ -177,12 +177,12 @@ void CarlaControlPanel::onInitialize()
   _node = getDisplayContext()->getRosNodeAbstraction().lock()->get_raw_node();
 
   // set up ros subscriber and publishers
-  mCarlaStatusSubscriber = _node->create_subscription<carla_msgs::msg::CarlaStatus>("/carla/status", 1000, std::bind(&CarlaControlPanel::carlaStatusChanged, this, _1));
+  mCarlaStatusSubscriber = _node->create_subscription<carla_msgs::msg::CarlaStatus>("/carla/status", 1, std::bind(&CarlaControlPanel::carlaStatusChanged, this, _1));
   mCarlaControlPublisher = _node->create_publisher<carla_msgs::msg::CarlaControl>("/carla/control", 10);
   mEgoVehicleStatusSubscriber 
-    = _node->create_subscription<carla_msgs::msg::CarlaEgoVehicleStatus>("/carla/ego_vehicle/vehicle_status", 1000, std::bind(&CarlaControlPanel::egoVehicleStatusChanged, this, _1));
+    = _node->create_subscription<carla_msgs::msg::CarlaEgoVehicleStatus>("/carla/ego_vehicle/vehicle_status", 1, std::bind(&CarlaControlPanel::egoVehicleStatusChanged, this, _1));
   mEgoVehicleOdometrySubscriber
-    = _node->create_subscription<nav_msgs::msg::Odometry>("/carla/ego_vehicle/odometry", 1000, std::bind(&CarlaControlPanel::egoVehicleOdometryChanged, this, _1));
+    = _node->create_subscription<nav_msgs::msg::Odometry>("/carla/ego_vehicle/odometry", 1, std::bind(&CarlaControlPanel::egoVehicleOdometryChanged, this, _1));
 
   auto qos_latch_10 = rclcpp::QoS( rclcpp::QoSInitialization(RMW_QOS_POLICY_HISTORY_KEEP_LAST, 10));
   qos_latch_10.durability(RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL);
