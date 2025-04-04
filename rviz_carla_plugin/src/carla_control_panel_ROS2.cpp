@@ -124,7 +124,7 @@ CarlaControlPanel::CarlaControlPanel(QWidget *parent)
 
   QTimer *outputTimer = new QTimer(this);
   connect(outputTimer, SIGNAL(timeout()), this, SLOT(sendVel()));
-  outputTimer->start(100);
+  outputTimer->start(20);
 
   connect(mDriveWidget, SIGNAL(outputVelocity(float, float)), this, SLOT(setVel(float, float)));
   mDriveWidget->setEnabled(false);
