@@ -173,21 +173,23 @@ class Sensor(Actor):
         if not self._callback_active.acquire(False):
             # if acquire fails, sensor is currently getting destroyed
             return
-        if self.synchronous_mode:
-            if self.sensor_tick_time:
-                self.next_data_expected_time = carla_sensor_data.timestamp + \
-                    float(self.sensor_tick_time)
-            self.queue.put(carla_sensor_data)
-        else:
-            self.publish_tf(trans.carla_transform_to_ros_pose(
-                carla_sensor_data.transform), carla_sensor_data.timestamp)
-            try:
-                self.sensor_data_updated(carla_sensor_data)
-            except roscomp.exceptions.ROSException:
-                if roscomp.ok():
-                    self.node.logwarn(
-                        "Sensor {}: Error while executing sensor_data_updated().".format(self.uid))
-        self._callback_active.release()
+        try:
+            if self.synchronous_mode:
+                if self.sensor_tick_time:
+                    self.next_data_expected_time = carla_sensor_data.timestamp + \
+                        float(self.sensor_tick_time)
+                self.queue.put(carla_sensor_data)
+            else:
+                self.publish_tf(trans.carla_transform_to_ros_pose(
+                    carla_sensor_data.transform), carla_sensor_data.timestamp)
+                try:
+                    self.sensor_data_updated(carla_sensor_data)
+                except roscomp.exceptions.ROSException:
+                    if roscomp.ok():
+                        self.node.logwarn(
+                            "Sensor {}: Error while executing sensor_data_updated().".format(self.uid))
+        finally:
+            self._callback_active.release()
 
     @abstractmethod
     def sensor_data_updated(self, carla_sensor_data):
