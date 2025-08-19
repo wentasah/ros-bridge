@@ -253,14 +253,16 @@ class CarlaRosBridge(CompatibleNode):
         while not self.shutdown.is_set() and roscomp.ok():
             self.process_run_state()
 
+            vehicles_present = False
             if self.parameters['synchronous_mode_wait_for_vehicle_control_command']:
                 # fill list of available ego vehicles
-                self._expected_ego_vehicle_control_command_ids = []
                 with self._expected_ego_vehicle_control_command_ids_lock:
+                    self._expected_ego_vehicle_control_command_ids = []
                     for actor_id, actor in self.actor_factory.actors.items():
                         if isinstance(actor, EgoVehicle):
                             self._expected_ego_vehicle_control_command_ids.append(
                                 actor_id)
+                            vehicles_present = True
 
             self.actor_factory.update_available_objects()
             frame = self.carla_world.tick()
@@ -276,7 +278,7 @@ class CarlaRosBridge(CompatibleNode):
 
             if self.parameters['synchronous_mode_wait_for_vehicle_control_command']:
                 # wait for all ego vehicles to send a vehicle control command
-                if self._expected_ego_vehicle_control_command_ids:
+                if vehicles_present:
                     if not self._all_vehicle_control_commands_received.wait(CarlaRosBridge.VEHICLE_CONTROL_TIMEOUT):
                         self.logwarn("Timeout ({}s) while waiting for vehicle control commands. "
                                      "Missing command from actor ids {}".format(CarlaRosBridge.VEHICLE_CONTROL_TIMEOUT,
