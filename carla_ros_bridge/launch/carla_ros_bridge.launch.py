@@ -25,6 +25,11 @@ def generate_launch_description():
             description='When enabled, the ROS bridge will take a backseat and another client must tick the world (only in synchronous mode)'
         ),
         launch.actions.DeclareLaunchArgument(
+            name='passive_load_town',
+            default_value='False',
+            description='Load town even when passive mode is enabled.'
+        ),
+        launch.actions.DeclareLaunchArgument(
             name='synchronous_mode',
             default_value='True',
             description='Enable/disable synchronous mode. If enabled, the ROS bridge waits until the expected data is received for all sensors'
@@ -82,6 +87,9 @@ def generate_launch_description():
                 },
                 {
                     'passive': launch.substitutions.LaunchConfiguration('passive')
+                },
+                {
+                    'passive_load_town': launch.substitutions.LaunchConfiguration('passive_load_town')
                 },
                 {
                     'synchronous_mode': launch.substitutions.LaunchConfiguration('synchronous_mode')

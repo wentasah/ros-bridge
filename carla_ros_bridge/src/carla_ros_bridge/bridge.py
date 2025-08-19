@@ -393,6 +393,7 @@ def main(args=None):
     parameters['port'] = carla_bridge.get_param('port', 2000)
     parameters['timeout'] = carla_bridge.get_param('timeout', 2)
     parameters['passive'] = carla_bridge.get_param('passive', False)
+    parameters['passive_load_town'] = carla_bridge.get_param('passive_load_town', False)
     parameters['synchronous_mode'] = carla_bridge.get_param('synchronous_mode', True)
     parameters['synchronous_mode_wait_for_vehicle_control_command'] = carla_bridge.get_param(
         'synchronous_mode_wait_for_vehicle_control_command', False)
@@ -432,7 +433,7 @@ def main(args=None):
 
         carla_world = carla_client.get_world()
 
-        if "town" in parameters and not parameters['passive']:
+        if "town" in parameters and (not parameters['passive'] or parameters['passive_load_town']):
             if parameters["town"].endswith(".xodr"):
                 carla_bridge.loginfo(
                     "Loading opendrive world from file '{}'".format(parameters["town"]))
